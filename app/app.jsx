@@ -1,36 +1,42 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 var Main = require('Main');
+var UserRecord = require('UserRecord');
+var CamperStats = require('CamperStats');
 
-require('style!css!foundation-sites/dist/foundation.min.css');
+//load foundation and app styles
 $(document).foundation();
-
-//app css
 require('style!css!sass!applicationStyles')
+require('style!css!foundation-sites/dist/foundation.min.css');
 
 
 class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            updated: 'no'
+            updated: 'no',
+            streamedData: undefined
         };
         this.handleData = this.handleData.bind(this);
-    }    
-    handleData(e) {
-        this.setState({
-            updated: 'yes'
-        });
+    }  
+    handleData() {
+        CamperStats.top100_recent().then((data) => {
+            return data.map((i) => [i.username, i.recent, i.img]);
+        }).then((data) => {
+            this.setState({
+                updated: 'yes',
+                streamedData: data
+            })
+        })
     }
     componentDidMount() {
-        this.setState({
-            updated: 'yes'
-        });
-    }    
+        this.handleData();
+    }
     render() {
         return (
-            <div>
-                <Main/>            
+            <div className="column small-centered medium-8 large-10">
+                <UserRecord/>
+                <Main value={this.state.streamedData}/>            
             </div>
         );
     }    

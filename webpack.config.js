@@ -23,6 +23,7 @@ module.exports = {
         root: __dirname,
         alias: {
             Main: 'app/components/Main.jsx',
+            UserRecord: 'app/components/UserRecord.jsx',
             CamperStats: 'app/api/CamperStats.js',
             applicationStyles: 'app/styles/app.scss'
         },
