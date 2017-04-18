@@ -21,8 +21,10 @@ class App extends React.Component {
     }  
     handleData() {
         CamperStats.top100_recent().then((data) => {
-            return data.map((i) => [i.username, i.recent, i.img]);
-        }).then((data) => {
+            //console.log('isArray', Array.isArray(data));
+            console.log('handleData: ', data);
+        //    return data;
+        //}).then((data) => {
             this.setState({
                 updated: 'yes',
                 streamedData: data
@@ -31,12 +33,22 @@ class App extends React.Component {
     }
     componentDidMount() {
         this.handleData();
+        console.log('componentdidmount: ', this.state)
     }
     render() {
+        let isLoaded = this.state.streamedData;
+        let elements = null;
+        if (!isLoaded) {
+            console.log('Render: Not there yet');
+            elements = 'Loading...';
+        } else {
+            console.log('Render: We\'ve got it!')
+            elements = <Main users={this.state.streamedData}/>;
+            console.log('elements:', elements);
+        }
         return (
             <div className="column small-centered medium-8 large-10">
-                <UserRecord/>
-                <Main value={this.state.streamedData}/>            
+                {elements}
             </div>
         );
     }    

@@ -135,10 +135,10 @@
 	            var _this2 = this;
 
 	            CamperStats.top100_recent().then(function (data) {
-	                return data.map(function (i) {
-	                    return [i.username, i.recent, i.img];
-	                });
-	            }).then(function (data) {
+	                //console.log('isArray', Array.isArray(data));
+	                console.log('handleData: ', data);
+	                //    return data;
+	                //}).then((data) => {
 	                _this2.setState({
 	                    updated: 'yes',
 	                    streamedData: data
@@ -149,15 +149,25 @@
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
 	            this.handleData();
+	            console.log('componentdidmount: ', this.state);
 	        }
 	    }, {
 	        key: 'render',
 	        value: function render() {
+	            var isLoaded = this.state.streamedData;
+	            var elements = null;
+	            if (!isLoaded) {
+	                console.log('Render: Not there yet');
+	                elements = 'Loading...';
+	            } else {
+	                console.log('Render: We\'ve got it!');
+	                elements = React.createElement(Main, { users: this.state.streamedData });
+	                console.log('elements:', elements);
+	            }
 	            return React.createElement(
 	                'div',
 	                { className: 'column small-centered medium-8 large-10' },
-	                React.createElement(UserRecord, null),
-	                React.createElement(Main, { value: this.state.streamedData })
+	                elements
 	            );
 	        }
 	    }]);
@@ -21908,23 +21918,100 @@
 
 	'use strict';
 
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 	var React = __webpack_require__(8);
 	var CamperStats = __webpack_require__(190);
 	var UserRecord = __webpack_require__(220);
+	/*
+	var userlist = [
+	    {
+	        username: "anthonygallina1",
+	        img: "https://avatars.githubusercontent.com/u/11003055?v=3",
+	        alltime: 3977,
+	        recent: 652,
+	        lastUpdate: "2017-04-16T04:21:45.928Z"
+	    },
+	    {
+	        username: "SkyCoder01",
+	        img: "https://avatars.githubusercontent.com/u/24684319?v=3",
+	        alltime: 857,
+	        recent: 492,
+	        lastUpdate: "2017-04-13T02:32:53.332Z"
+	    },
+	    {
+	        username: "sjames1958gm",
+	        img: "https://avatars.githubusercontent.com/u/4639625?v=3",
+	        alltime: 6299,
+	        recent: 489,
+	        lastUpdate: "2017-04-10T21:43:02.911Z"
+	}]
 
-	var Main = function Main(props) {
-	    console.log('value:', Array.isArray(props.value));
-	    var CamperData = props.value;
-	    return React.createElement(
-	        'div',
-	        { className: 'row' },
-	        React.createElement(
-	            'table',
-	            null,
-	            CamperData
-	        )
-	    );
-	};
+	var Main = (props) => {
+	    console.log(props);
+	    return (
+	        <table>
+	            <tbody>
+	                <UserRecord user={props.users[1].username} />
+	            </tbody>
+	        </table>
+	    )
+	};*/
+
+	var Main = function (_React$Component) {
+	    _inherits(Main, _React$Component);
+
+	    function Main() {
+	        _classCallCheck(this, Main);
+
+	        return _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).apply(this, arguments));
+	    }
+
+	    _createClass(Main, [{
+	        key: 'render',
+	        value: function render() {
+	            console.log('Main props: ', this.props);
+	            var userData = null;
+	            if (!this.props.users) {
+	                userData = 'Loading data...';
+	            } else {
+	                userData = this.props.users.map(function (i) {
+	                    React.createElement(
+	                        'tr',
+	                        null,
+	                        React.createElement(
+	                            'td',
+	                            null,
+	                            'i.username'
+	                        ),
+	                        React.createElement(
+	                            'td',
+	                            null,
+	                            'i.recent'
+	                        )
+	                    );
+	                });
+	            }
+	            return React.createElement(
+	                'table',
+	                null,
+	                React.createElement(
+	                    'tbody',
+	                    null,
+	                    userData
+	                )
+	            );
+	        }
+	    }]);
+
+	    return Main;
+	}(React.Component);
 
 	module.exports = Main;
 
@@ -25489,18 +25576,23 @@
 /* 220 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 
 	var React = __webpack_require__(8);
 
-	var UserRecord = function UserRecord() {
+	var UserRecord = function UserRecord(props) {
 	    return React.createElement(
-	        "div",
-	        { className: "row" },
+	        'tr',
+	        null,
 	        React.createElement(
-	            "p",
+	            'td',
 	            null,
-	            "User Record"
+	            props.user
+	        ),
+	        React.createElement(
+	            'td',
+	            null,
+	            'aaa'
 	        )
 	    );
 	};

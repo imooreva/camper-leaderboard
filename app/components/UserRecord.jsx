@@ -1,10 +1,11 @@
 var React = require('react');
 
-var UserRecord = () => {
+var UserRecord = (props) => {
     return (
-        <div className="row">
-            <p>User Record</p>
-        </div>
+        <tr>
+            <td>{props.user}</td>
+            <td>aaa</td>
+        </tr>
     )
 };
 
