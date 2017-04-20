@@ -15,10 +15,3 @@ module.exports = {
         });
     }    
 };
-
-
-//let reqURL = `${campersBaseURL}recent`;
-//axios.get(reqURL).then((res) => {
-//    console.log(res.data);
-//    return res.data;
-//});

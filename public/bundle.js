@@ -125,38 +125,88 @@
 	        var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
 	        _this.state = {
-	            updated: 'no',
-	            streamedData: undefined
+	            dataAllTime: undefined,
+	            dataRecent: undefined,
+	            dataSorted: false,
+	            sortType: 'Recent'
 	        };
 	        _this.handleData = _this.handleData.bind(_this);
+	        _this.handleSortRecent = _this.handleSortRecent.bind(_this);
+	        _this.handleSortAllTime = _this.handleSortAllTime.bind(_this);
 	        return _this;
 	    }
-	    //download latest JSON formatted data and use it to update App component's state
+	    //call handleData() after App mounts
 
 
 	    _createClass(App, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            this.handleData();
+	        }
+	        //download latest JSON formatted data and use it to update App component's state
+
+	    }, {
 	        key: 'handleData',
 	        value: function handleData() {
 	            var _this2 = this;
 
 	            CamperStats.top100_recent().then(function (data) {
 	                _this2.setState({
-	                    updated: 'yes',
-	                    streamedData: data
+	                    dataRecent: data
+	                });
+	            });
+	            CamperStats.top100_alltime().then(function (data) {
+	                _this2.setState({
+	                    dataAllTime: data
 	                });
 	            });
 	        }
-	        //call handleData() after App mounts
+	        //sort the recent (last 30 days) highest scores
 
 	    }, {
-	        key: 'componentDidMount',
-	        value: function componentDidMount() {
-	            this.handleData();
+	        key: 'handleSortRecent',
+	        value: function handleSortRecent() {
+	            var loadedData = this.state.dataRecent;
+	            if (loadedData && Array.isArray(loadedData)) {
+	                //compare first and last scores in array to determine sort order
+	                var sorted = loadedData[0].recent > loadedData[loadedData.length - 1].recent ? loadedData.sort(function (a, b) {
+	                    return a.recent - b.recent;
+	                }) : loadedData.sort(function (a, b) {
+	                    return b.recent - a.recent;
+	                });
+	                //update state with our sorted array
+	                this.setState({
+	                    dataRecent: sorted,
+	                    dataSorted: true,
+	                    sortType: 'Recent'
+	                });
+	            }
+	        }
+	        //sort the highest scores of all time
+
+	    }, {
+	        key: 'handleSortAllTime',
+	        value: function handleSortAllTime() {
+	            var loadedData = this.state.dataAllTime;
+	            if (loadedData && Array.isArray(loadedData)) {
+	                //compare first and last scores in array to determine sort order
+	                var sorted = loadedData[0].alltime > loadedData[loadedData.length - 1].alltime ? loadedData.sort(function (a, b) {
+	                    return a.alltime - b.alltime;
+	                }) : loadedData.sort(function (a, b) {
+	                    return b.alltime - a.alltime;
+	                });
+	                //update state with our sorted array
+	                this.setState({
+	                    dataAllTime: sorted,
+	                    dataSorted: true,
+	                    sortType: 'AllTime'
+	                });
+	            }
 	        }
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            var loadedData = this.state.streamedData;
+	            var loadedData = this.state.dataRecent;
 	            var tableData = null;
 	            if (!loadedData) {
 	                tableData = React.createElement(
@@ -165,7 +215,11 @@
 	                    'Fetching data...'
 	                );
 	            } else {
-	                tableData = React.createElement(Main, { users: this.state.streamedData });
+	                tableData = React.createElement(Main, { usersRecent: this.state.dataRecent,
+	                    usersAllTime: this.state.dataAllTime,
+	                    sortType: this.state.sortType,
+	                    sortRecent: this.handleSortRecent,
+	                    sortAllTime: this.handleSortAllTime });
 	            }
 	            return React.createElement(
 	                'div',
@@ -21948,12 +22002,6 @@
 	    }
 	};
 
-	//let reqURL = `${campersBaseURL}recent`;
-	//axios.get(reqURL).then((res) => {
-	//    console.log(res.data);
-	//    return res.data;
-	//});
-
 /***/ }),
 /* 190 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -25508,9 +25556,12 @@
 	    _createClass(Main, [{
 	        key: 'render',
 	        value: function render() {
-	            var userProps = this.props.users;
+	            //conditional statement sorts the appropriate column, and render the stored data if necessary
+	            var userProps = this.props.sortType === 'Recent' ? this.props.usersRecent : this.props.usersAllTime;
+	            //declare for later use
 	            var userData = void 0;
 	            var unavailableMessage = void 0;
+
 	            if (Array.isArray(userProps)) {
 	                //map the information to table rows and cells
 	                //don't use curly brackets to wrap function output in .map, it prevents userData from rendering
@@ -25548,7 +25599,9 @@
 	                    { className: 'fetching-data' },
 	                    'Data is currently unavailable.'
 	                );
-	            }return (
+	            }
+
+	            return (
 	                //if-else statement with conditional operator
 	                //if data is unavailable, render a div with message, otherwise render data in a table
 	                unavailableMessage ? React.createElement(
@@ -25576,12 +25629,12 @@
 	                            ),
 	                            React.createElement(
 	                                'th',
-	                                { scope: 'column' },
+	                                { scope: 'column', onClick: this.props.sortRecent },
 	                                'Recent Score - Past 30 Days'
 	                            ),
 	                            React.createElement(
 	                                'th',
-	                                { scope: 'column' },
+	                                { scope: 'column', onClick: this.props.sortAllTime },
 	                                'All Time Score'
 	                            )
 	                        )

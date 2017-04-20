@@ -11,9 +11,12 @@ class Main extends React.Component {
     }
     
     render() {
-        let userProps = this.props.users;
+        //conditional statement sorts the appropriate column, and render the stored data if necessary
+        let userProps = this.props.sortType === 'Recent' ? this.props.usersRecent : this.props.usersAllTime;
+        //declare for later use
         let userData;
         let unavailableMessage;
+        
         if (Array.isArray(userProps)) {
             //map the information to table rows and cells
             //don't use curly brackets to wrap function output in .map, it prevents userData from rendering
@@ -22,7 +25,9 @@ class Main extends React.Component {
             );
         } else if (!userProps || !Array.isArray(userProps)) {
             unavailableMessage = <h3 className="fetching-data">Data is currently unavailable.</h3>;
-        } return (
+        }
+        
+        return (
             //if-else statement with conditional operator
             //if data is unavailable, render a div with message, otherwise render data in a table
             unavailableMessage ? <div>{unavailableMessage}</div> : 
@@ -31,8 +36,8 @@ class Main extends React.Component {
                     <tr>
                         <th scope="column">Rank</th>
                         <th scope="column">User</th>
-                        <th scope="column">Recent Score - Past 30 Days</th>
-                        <th scope="column">All Time Score</th>
+                        <th scope="column" onClick={this.props.sortRecent}>Recent Score - Past 30 Days</th>
+                        <th scope="column" onClick={this.props.sortAllTime}>All Time Score</th>
                     </tr>
                 </thead>
                 <tbody>
