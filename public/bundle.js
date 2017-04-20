@@ -102,11 +102,14 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	//require modules
 	var React = __webpack_require__(8);
 	var ReactDOM = __webpack_require__(43);
-	var Main = __webpack_require__(189);
+
+	//functions and components
+	var CamperStats = __webpack_require__(189);
+	var Main = __webpack_require__(219);
 	var UserRecord = __webpack_require__(220);
-	var CamperStats = __webpack_require__(190);
 
 	//load foundation and app styles
 	$(document).foundation();
@@ -128,6 +131,8 @@
 	        _this.handleData = _this.handleData.bind(_this);
 	        return _this;
 	    }
+	    //download latest JSON formatted data and use it to update App component's state
+
 
 	    _createClass(App, [{
 	        key: 'handleData',
@@ -135,39 +140,46 @@
 	            var _this2 = this;
 
 	            CamperStats.top100_recent().then(function (data) {
-	                //console.log('isArray', Array.isArray(data));
-	                console.log('handleData: ', data);
-	                //    return data;
-	                //}).then((data) => {
 	                _this2.setState({
 	                    updated: 'yes',
 	                    streamedData: data
 	                });
 	            });
 	        }
+	        //call handleData() after App mounts
+
 	    }, {
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
 	            this.handleData();
-	            console.log('componentdidmount: ', this.state);
 	        }
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            var isLoaded = this.state.streamedData;
-	            var elements = null;
-	            if (!isLoaded) {
-	                console.log('Render: Not there yet');
-	                elements = 'Loading...';
+	            var loadedData = this.state.streamedData;
+	            var tableData = null;
+	            if (!loadedData) {
+	                tableData = React.createElement(
+	                    'h3',
+	                    { className: 'fetching-data' },
+	                    'Fetching data...'
+	                );
 	            } else {
-	                console.log('Render: We\'ve got it!');
-	                elements = React.createElement(Main, { users: this.state.streamedData });
-	                console.log('elements:', elements);
+	                tableData = React.createElement(Main, { users: this.state.streamedData });
 	            }
 	            return React.createElement(
 	                'div',
 	                { className: 'column small-centered medium-8 large-10' },
-	                elements
+	                React.createElement(
+	                    'div',
+	                    { id: 'header' },
+	                    React.createElement(
+	                        'h1',
+	                        null,
+	                        'freeCodeCamp Leaderboard'
+	                    )
+	                ),
+	                tableData
 	            );
 	        }
 	    }]);
@@ -21918,110 +21930,7 @@
 
 	'use strict';
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var React = __webpack_require__(8);
-	var CamperStats = __webpack_require__(190);
-	var UserRecord = __webpack_require__(220);
-	/*
-	var userlist = [
-	    {
-	        username: "anthonygallina1",
-	        img: "https://avatars.githubusercontent.com/u/11003055?v=3",
-	        alltime: 3977,
-	        recent: 652,
-	        lastUpdate: "2017-04-16T04:21:45.928Z"
-	    },
-	    {
-	        username: "SkyCoder01",
-	        img: "https://avatars.githubusercontent.com/u/24684319?v=3",
-	        alltime: 857,
-	        recent: 492,
-	        lastUpdate: "2017-04-13T02:32:53.332Z"
-	    },
-	    {
-	        username: "sjames1958gm",
-	        img: "https://avatars.githubusercontent.com/u/4639625?v=3",
-	        alltime: 6299,
-	        recent: 489,
-	        lastUpdate: "2017-04-10T21:43:02.911Z"
-	}]
-
-	var Main = (props) => {
-	    console.log(props);
-	    return (
-	        <table>
-	            <tbody>
-	                <UserRecord user={props.users[1].username} />
-	            </tbody>
-	        </table>
-	    )
-	};*/
-
-	var Main = function (_React$Component) {
-	    _inherits(Main, _React$Component);
-
-	    function Main() {
-	        _classCallCheck(this, Main);
-
-	        return _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).apply(this, arguments));
-	    }
-
-	    _createClass(Main, [{
-	        key: 'render',
-	        value: function render() {
-	            console.log('Main props: ', this.props);
-	            var userData = null;
-	            if (!this.props.users) {
-	                userData = 'Loading data...';
-	            } else {
-	                userData = this.props.users.map(function (i) {
-	                    React.createElement(
-	                        'tr',
-	                        null,
-	                        React.createElement(
-	                            'td',
-	                            null,
-	                            'i.username'
-	                        ),
-	                        React.createElement(
-	                            'td',
-	                            null,
-	                            'i.recent'
-	                        )
-	                    );
-	                });
-	            }
-	            return React.createElement(
-	                'table',
-	                null,
-	                React.createElement(
-	                    'tbody',
-	                    null,
-	                    userData
-	                )
-	            );
-	        }
-	    }]);
-
-	    return Main;
-	}(React.Component);
-
-	module.exports = Main;
-
-/***/ }),
-/* 190 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var axios = __webpack_require__(191);
+	var axios = __webpack_require__(190);
 	var campersBaseURL = 'https://fcctop100.herokuapp.com/api/fccusers/top/';
 
 	module.exports = {
@@ -22029,16 +21938,12 @@
 	        var reqURL = campersBaseURL + 'recent';
 	        return axios.get(reqURL).then(function (res) {
 	            return res.data;
-	            //return res.data.map((i) => [i.username, i.recent, i.img]);
-	            //return res.data.map((i) => `<tr><td>${i.username}</td></tr>`);
 	        });
 	    },
 	    top100_alltime: function top100_alltime() {
 	        var reqURL = campersBaseURL + 'alltime';
 	        return axios.get(reqURL).then(function (res) {
-	            return res.data.map(function (i) {
-	                return [i.username, i.alltime, i.img];
-	            });
+	            return res.data;
 	        });
 	    }
 	};
@@ -22050,21 +21955,21 @@
 	//});
 
 /***/ }),
-/* 191 */
+/* 190 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(192);
+	module.exports = __webpack_require__(191);
 
 /***/ }),
-/* 192 */
+/* 191 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(193);
-	var bind = __webpack_require__(198);
-	var Axios = __webpack_require__(199);
-	var defaults = __webpack_require__(200);
+	var utils = __webpack_require__(192);
+	var bind = __webpack_require__(197);
+	var Axios = __webpack_require__(198);
+	var defaults = __webpack_require__(199);
 
 	/**
 	 * Create an instance of Axios
@@ -22097,15 +22002,15 @@
 	};
 
 	// Expose Cancel & CancelToken
-	axios.Cancel = __webpack_require__(217);
-	axios.CancelToken = __webpack_require__(218);
-	axios.isCancel = __webpack_require__(214);
+	axios.Cancel = __webpack_require__(216);
+	axios.CancelToken = __webpack_require__(217);
+	axios.isCancel = __webpack_require__(213);
 
 	// Expose all/spread
 	axios.all = function all(promises) {
 	  return Promise.all(promises);
 	};
-	axios.spread = __webpack_require__(219);
+	axios.spread = __webpack_require__(218);
 
 	module.exports = axios;
 
@@ -22114,12 +22019,12 @@
 
 
 /***/ }),
-/* 193 */
+/* 192 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(Buffer) {'use strict';
 
-	var bind = __webpack_require__(198);
+	var bind = __webpack_require__(197);
 
 	/*global toString:true*/
 
@@ -22430,10 +22335,10 @@
 	  trim: trim
 	};
 
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(194).Buffer))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(193).Buffer))
 
 /***/ }),
-/* 194 */
+/* 193 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/*!
@@ -22446,9 +22351,9 @@
 
 	'use strict'
 
-	var base64 = __webpack_require__(195)
-	var ieee754 = __webpack_require__(196)
-	var isArray = __webpack_require__(197)
+	var base64 = __webpack_require__(194)
+	var ieee754 = __webpack_require__(195)
+	var isArray = __webpack_require__(196)
 
 	exports.Buffer = Buffer
 	exports.SlowBuffer = SlowBuffer
@@ -24229,7 +24134,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ }),
-/* 195 */
+/* 194 */
 /***/ (function(module, exports) {
 
 	'use strict'
@@ -24349,7 +24254,7 @@
 
 
 /***/ }),
-/* 196 */
+/* 195 */
 /***/ (function(module, exports) {
 
 	exports.read = function (buffer, offset, isLE, mLen, nBytes) {
@@ -24439,7 +24344,7 @@
 
 
 /***/ }),
-/* 197 */
+/* 196 */
 /***/ (function(module, exports) {
 
 	var toString = {}.toString;
@@ -24450,7 +24355,7 @@
 
 
 /***/ }),
-/* 198 */
+/* 197 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -24467,17 +24372,17 @@
 
 
 /***/ }),
-/* 199 */
+/* 198 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var defaults = __webpack_require__(200);
-	var utils = __webpack_require__(193);
-	var InterceptorManager = __webpack_require__(211);
-	var dispatchRequest = __webpack_require__(212);
-	var isAbsoluteURL = __webpack_require__(215);
-	var combineURLs = __webpack_require__(216);
+	var defaults = __webpack_require__(199);
+	var utils = __webpack_require__(192);
+	var InterceptorManager = __webpack_require__(210);
+	var dispatchRequest = __webpack_require__(211);
+	var isAbsoluteURL = __webpack_require__(214);
+	var combineURLs = __webpack_require__(215);
 
 	/**
 	 * Create a new instance of Axios
@@ -24558,13 +24463,13 @@
 
 
 /***/ }),
-/* 200 */
+/* 199 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 
-	var utils = __webpack_require__(193);
-	var normalizeHeaderName = __webpack_require__(201);
+	var utils = __webpack_require__(192);
+	var normalizeHeaderName = __webpack_require__(200);
 
 	var DEFAULT_CONTENT_TYPE = {
 	  'Content-Type': 'application/x-www-form-urlencoded'
@@ -24580,10 +24485,10 @@
 	  var adapter;
 	  if (typeof XMLHttpRequest !== 'undefined') {
 	    // For browsers use XHR adapter
-	    adapter = __webpack_require__(202);
+	    adapter = __webpack_require__(201);
 	  } else if (typeof process !== 'undefined') {
 	    // For node use HTTP adapter
-	    adapter = __webpack_require__(202);
+	    adapter = __webpack_require__(201);
 	  }
 	  return adapter;
 	}
@@ -24657,12 +24562,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
 
 /***/ }),
-/* 201 */
+/* 200 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(193);
+	var utils = __webpack_require__(192);
 
 	module.exports = function normalizeHeaderName(headers, normalizedName) {
 	  utils.forEach(headers, function processHeader(value, name) {
@@ -24675,18 +24580,18 @@
 
 
 /***/ }),
-/* 202 */
+/* 201 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {'use strict';
 
-	var utils = __webpack_require__(193);
-	var settle = __webpack_require__(203);
-	var buildURL = __webpack_require__(206);
-	var parseHeaders = __webpack_require__(207);
-	var isURLSameOrigin = __webpack_require__(208);
-	var createError = __webpack_require__(204);
-	var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(209);
+	var utils = __webpack_require__(192);
+	var settle = __webpack_require__(202);
+	var buildURL = __webpack_require__(205);
+	var parseHeaders = __webpack_require__(206);
+	var isURLSameOrigin = __webpack_require__(207);
+	var createError = __webpack_require__(203);
+	var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(208);
 
 	module.exports = function xhrAdapter(config) {
 	  return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -24782,7 +24687,7 @@
 	    // This is only done if running in a standard browser environment.
 	    // Specifically not if we're in a web worker, or react-native.
 	    if (utils.isStandardBrowserEnv()) {
-	      var cookies = __webpack_require__(210);
+	      var cookies = __webpack_require__(209);
 
 	      // Add xsrf header
 	      var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -24861,12 +24766,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
 
 /***/ }),
-/* 203 */
+/* 202 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var createError = __webpack_require__(204);
+	var createError = __webpack_require__(203);
 
 	/**
 	 * Resolve or reject a Promise based on response status.
@@ -24892,12 +24797,12 @@
 
 
 /***/ }),
-/* 204 */
+/* 203 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var enhanceError = __webpack_require__(205);
+	var enhanceError = __webpack_require__(204);
 
 	/**
 	 * Create an Error with the specified message, config, error code, and response.
@@ -24915,7 +24820,7 @@
 
 
 /***/ }),
-/* 205 */
+/* 204 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -24940,12 +24845,12 @@
 
 
 /***/ }),
-/* 206 */
+/* 205 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(193);
+	var utils = __webpack_require__(192);
 
 	function encode(val) {
 	  return encodeURIComponent(val).
@@ -25014,12 +24919,12 @@
 
 
 /***/ }),
-/* 207 */
+/* 206 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(193);
+	var utils = __webpack_require__(192);
 
 	/**
 	 * Parse headers into an object
@@ -25057,12 +24962,12 @@
 
 
 /***/ }),
-/* 208 */
+/* 207 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(193);
+	var utils = __webpack_require__(192);
 
 	module.exports = (
 	  utils.isStandardBrowserEnv() ?
@@ -25131,7 +25036,7 @@
 
 
 /***/ }),
-/* 209 */
+/* 208 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -25173,12 +25078,12 @@
 
 
 /***/ }),
-/* 210 */
+/* 209 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(193);
+	var utils = __webpack_require__(192);
 
 	module.exports = (
 	  utils.isStandardBrowserEnv() ?
@@ -25232,12 +25137,12 @@
 
 
 /***/ }),
-/* 211 */
+/* 210 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(193);
+	var utils = __webpack_require__(192);
 
 	function InterceptorManager() {
 	  this.handlers = [];
@@ -25290,15 +25195,15 @@
 
 
 /***/ }),
-/* 212 */
+/* 211 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(193);
-	var transformData = __webpack_require__(213);
-	var isCancel = __webpack_require__(214);
-	var defaults = __webpack_require__(200);
+	var utils = __webpack_require__(192);
+	var transformData = __webpack_require__(212);
+	var isCancel = __webpack_require__(213);
+	var defaults = __webpack_require__(199);
 
 	/**
 	 * Throws a `Cancel` if cancellation has been requested.
@@ -25375,12 +25280,12 @@
 
 
 /***/ }),
-/* 213 */
+/* 212 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var utils = __webpack_require__(193);
+	var utils = __webpack_require__(192);
 
 	/**
 	 * Transform the data for a request or a response
@@ -25401,7 +25306,7 @@
 
 
 /***/ }),
-/* 214 */
+/* 213 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -25412,7 +25317,7 @@
 
 
 /***/ }),
-/* 215 */
+/* 214 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -25432,7 +25337,7 @@
 
 
 /***/ }),
-/* 216 */
+/* 215 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -25452,7 +25357,7 @@
 
 
 /***/ }),
-/* 217 */
+/* 216 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -25477,12 +25382,12 @@
 
 
 /***/ }),
-/* 218 */
+/* 217 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var Cancel = __webpack_require__(217);
+	var Cancel = __webpack_require__(216);
 
 	/**
 	 * A `CancelToken` is an object that can be used to request cancellation of an operation.
@@ -25540,7 +25445,7 @@
 
 
 /***/ }),
-/* 219 */
+/* 218 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -25571,6 +25476,130 @@
 	  };
 	};
 
+
+/***/ }),
+/* 219 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	//require react and components
+	var React = __webpack_require__(8);
+	var CamperStats = __webpack_require__(189);
+	var UserRecord = __webpack_require__(220);
+
+	var Main = function (_React$Component) {
+	    _inherits(Main, _React$Component);
+
+	    function Main(props) {
+	        _classCallCheck(this, Main);
+
+	        return _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this, props));
+	    }
+
+	    _createClass(Main, [{
+	        key: 'render',
+	        value: function render() {
+	            var userProps = this.props.users;
+	            var userData = void 0;
+	            var unavailableMessage = void 0;
+	            if (Array.isArray(userProps)) {
+	                //map the information to table rows and cells
+	                //don't use curly brackets to wrap function output in .map, it prevents userData from rendering
+	                userData = userProps.map(function (item, index) {
+	                    return React.createElement(
+	                        'tr',
+	                        { key: index + 1, className: 'rank' },
+	                        React.createElement(
+	                            'td',
+	                            null,
+	                            index + 1
+	                        ),
+	                        React.createElement(
+	                            'td',
+	                            { className: 'user' },
+	                            React.createElement('img', { src: item.img, className: 'user-img' }),
+	                            ' ',
+	                            item.username
+	                        ),
+	                        React.createElement(
+	                            'td',
+	                            { className: 'recent' },
+	                            item.recent
+	                        ),
+	                        React.createElement(
+	                            'td',
+	                            { className: 'alltime' },
+	                            item.alltime
+	                        )
+	                    );
+	                });
+	            } else if (!userProps || !Array.isArray(userProps)) {
+	                unavailableMessage = React.createElement(
+	                    'h3',
+	                    { className: 'fetching-data' },
+	                    'Data is currently unavailable.'
+	                );
+	            }return (
+	                //if-else statement with conditional operator
+	                //if data is unavailable, render a div with message, otherwise render data in a table
+	                unavailableMessage ? React.createElement(
+	                    'div',
+	                    null,
+	                    unavailableMessage
+	                ) : React.createElement(
+	                    'table',
+	                    { id: 'main', role: 'grid' },
+	                    React.createElement(
+	                        'thead',
+	                        null,
+	                        React.createElement(
+	                            'tr',
+	                            null,
+	                            React.createElement(
+	                                'th',
+	                                { scope: 'column' },
+	                                'Rank'
+	                            ),
+	                            React.createElement(
+	                                'th',
+	                                { scope: 'column' },
+	                                'User'
+	                            ),
+	                            React.createElement(
+	                                'th',
+	                                { scope: 'column' },
+	                                'Recent Score - Past 30 Days'
+	                            ),
+	                            React.createElement(
+	                                'th',
+	                                { scope: 'column' },
+	                                'All Time Score'
+	                            )
+	                        )
+	                    ),
+	                    React.createElement(
+	                        'tbody',
+	                        null,
+	                        userData
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+
+	    return Main;
+	}(React.Component);
+
+	module.exports = Main;
 
 /***/ }),
 /* 220 */
@@ -25634,7 +25663,7 @@
 
 
 	// module
-	exports.push([module.id, "p {\n  color: #777; }\n", ""]);
+	exports.push([module.id, "p {\n  color: #777; }\n\nhtml, div#app {\n  background-color: cornsilk; }\n\ndiv > #header {\n  text-align: center; }\n\n.fetching-data {\n  text-align: center; }\n\ntable, th, td {\n  border: 0.1875rem solid cornflowerblue;\n  border-collapse: collapse; }\n\n#main > thead > tr > th {\n  font-size: 1.25rem;\n  text-align: center;\n  text-decoration: none; }\n\n.rank, .recent, .alltime {\n  text-align: center; }\n\n.user {\n  text-align: left; }\n\n.user-img {\n  border: 0.125rem black solid;\n  border-radius: 10%;\n  max-height: 2.5rem;\n  max-width: 2.5rem; }\n", ""]);
 
 	// exports
 

@@ -3,3 +3,41 @@ $color: #777;
 p {
     color: $color;
 }
+
+html, div#app {
+    background-color: cornsilk;
+}
+
+div>#header {
+    text-align: center;
+}
+
+.fetching-data {
+    text-align: center;
+}
+
+table, th, td {
+    border: 0.1875rem solid cornflowerblue;
+    border-collapse: collapse;
+}
+
+#main>thead>tr>th {
+    font-size: 1.25rem;
+    text-align: center;
+    text-decoration: none;
+}
+
+.rank, .recent, .alltime {
+    text-align: center;
+}
+
+.user {
+    text-align: left;
+}
+
+.user-img {
+    border: 0.125rem black solid;
+    border-radius: 10%;
+    max-height: 2.5rem;
+    max-width: 2.5rem;
+}

@@ -1,8 +1,11 @@
+//require modules
 var React = require('react');
 var ReactDOM = require('react-dom');
+
+//functions and components
+var CamperStats = require('CamperStats');
 var Main = require('Main');
 var UserRecord = require('UserRecord');
-var CamperStats = require('CamperStats');
 
 //load foundation and app styles
 $(document).foundation();
@@ -11,6 +14,7 @@ require('style!css!foundation-sites/dist/foundation.min.css');
 
 
 class App extends React.Component {
+    
     constructor(props) {
         super(props);
         this.state = {
@@ -18,40 +22,36 @@ class App extends React.Component {
             streamedData: undefined
         };
         this.handleData = this.handleData.bind(this);
-    }  
+    }
+    //download latest JSON formatted data and use it to update App component's state
     handleData() {
         CamperStats.top100_recent().then((data) => {
-            //console.log('isArray', Array.isArray(data));
-            console.log('handleData: ', data);
-        //    return data;
-        //}).then((data) => {
             this.setState({
                 updated: 'yes',
                 streamedData: data
-            })
-        })
+            });
+        });
     }
+    //call handleData() after App mounts
     componentDidMount() {
         this.handleData();
-        console.log('componentdidmount: ', this.state)
     }
+    
     render() {
-        let isLoaded = this.state.streamedData;
-        let elements = null;
-        if (!isLoaded) {
-            console.log('Render: Not there yet');
-            elements = 'Loading...';
+        let loadedData = this.state.streamedData;
+        let tableData = null;
+        if (!loadedData) {
+            tableData = <h3 className="fetching-data">Fetching data...</h3>
         } else {
-            console.log('Render: We\'ve got it!')
-            elements = <Main users={this.state.streamedData}/>;
-            console.log('elements:', elements);
+            tableData = <Main users={this.state.streamedData}/>;
         }
         return (
             <div className="column small-centered medium-8 large-10">
-                {elements}
+                <div id="header"><h1>freeCodeCamp Leaderboard</h1></div>
+                {tableData}
             </div>
         );
-    }    
+    }
 };
 
 ReactDOM.render(

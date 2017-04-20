@@ -5,15 +5,13 @@ module.exports = {
     top100_recent() {
         let reqURL = `${campersBaseURL}recent`;
         return axios.get(reqURL).then((res) => {
-            return res.data
-            //return res.data.map((i) => [i.username, i.recent, i.img]);
-            //return res.data.map((i) => `<tr><td>${i.username}</td></tr>`);
+            return res.data;
         });
     },    
     top100_alltime() {
         let reqURL = `${campersBaseURL}alltime`;
         return axios.get(reqURL).then((res) => {
-            return res.data.map((i) => [i.username, i.alltime, i.img]);
+            return res.data;
         });
     }    
 };
