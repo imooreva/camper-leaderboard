@@ -22,10 +22,11 @@ module.exports = {
     resolve: {
         root: __dirname,
         alias: {
-            Main: 'app/components/Main.jsx',
-            UserRecord: 'app/components/UserRecord.jsx',
+            applicationStyles: 'app/styles/app.scss',
             CamperStats: 'app/api/CamperStats.js',
-            applicationStyles: 'app/styles/app.scss'
+            Footer: 'app/components/Footer.jsx',
+            Header: 'app/components/Header.jsx',
+            Main: 'app/components/Main.jsx'                        
         },
         extensions: ['','.js','.jsx']
     },

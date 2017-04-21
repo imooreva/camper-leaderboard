@@ -102,19 +102,19 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	//require modules
 	var React = __webpack_require__(8);
 	var ReactDOM = __webpack_require__(43);
 
 	//functions and components
 	var CamperStats = __webpack_require__(189);
-	var Main = __webpack_require__(219);
-	var UserRecord = __webpack_require__(220);
+	var Header = __webpack_require__(219);
+	var Footer = __webpack_require__(220);
+	var Main = __webpack_require__(221);
 
 	//load foundation and app styles
 	$(document).foundation();
-	__webpack_require__(221);
-	__webpack_require__(225);
+	__webpack_require__(222);
+	__webpack_require__(226);
 
 	var App = function (_React$Component) {
 	    _inherits(App, _React$Component);
@@ -127,7 +127,8 @@
 	        _this.state = {
 	            dataAllTime: undefined,
 	            dataRecent: undefined,
-	            dataSorted: false,
+	            dataAllTimeSorted: false,
+	            dataRecentSorted: true,
 	            sortType: 'Recent'
 	        };
 	        _this.handleData = _this.handleData.bind(_this);
@@ -162,22 +163,22 @@
 	            });
 	        }
 	        //sort the recent (last 30 days) highest scores
+	        //JSON data on the server is already sorted in descending order, but we'll sort it here anyway :)
 
 	    }, {
 	        key: 'handleSortRecent',
 	        value: function handleSortRecent() {
 	            var loadedData = this.state.dataRecent;
 	            if (loadedData && Array.isArray(loadedData)) {
-	                //compare first and last scores in array to determine sort order
-	                var sorted = loadedData[0].recent > loadedData[loadedData.length - 1].recent ? loadedData.sort(function (a, b) {
-	                    return a.recent - b.recent;
-	                }) : loadedData.sort(function (a, b) {
+	                //compare first and last scores in array to determine sort order, then sort by
+	                var sorted = loadedData.sort(function (a, b) {
 	                    return b.recent - a.recent;
 	                });
 	                //update state with our sorted array
 	                this.setState({
 	                    dataRecent: sorted,
-	                    dataSorted: true,
+	                    dataRecentSorted: true,
+	                    dataAllTimeSorted: false,
 	                    sortType: 'Recent'
 	                });
 	            }
@@ -190,15 +191,14 @@
 	            var loadedData = this.state.dataAllTime;
 	            if (loadedData && Array.isArray(loadedData)) {
 	                //compare first and last scores in array to determine sort order
-	                var sorted = loadedData[0].alltime > loadedData[loadedData.length - 1].alltime ? loadedData.sort(function (a, b) {
-	                    return a.alltime - b.alltime;
-	                }) : loadedData.sort(function (a, b) {
+	                var sorted = loadedData.sort(function (a, b) {
 	                    return b.alltime - a.alltime;
 	                });
 	                //update state with our sorted array
 	                this.setState({
 	                    dataAllTime: sorted,
-	                    dataSorted: true,
+	                    dataRecentSorted: false,
+	                    dataAllTimeSorted: true,
 	                    sortType: 'AllTime'
 	                });
 	            }
@@ -217,6 +217,8 @@
 	            } else {
 	                tableData = React.createElement(Main, { usersRecent: this.state.dataRecent,
 	                    usersAllTime: this.state.dataAllTime,
+	                    sortedRecent: this.state.dataRecentSorted,
+	                    sortedAllTime: this.state.dataAllTimeSorted,
 	                    sortType: this.state.sortType,
 	                    sortRecent: this.handleSortRecent,
 	                    sortAllTime: this.handleSortAllTime });
@@ -224,16 +226,9 @@
 	            return React.createElement(
 	                'div',
 	                { className: 'column small-centered medium-8 large-10' },
-	                React.createElement(
-	                    'div',
-	                    { id: 'header' },
-	                    React.createElement(
-	                        'h1',
-	                        null,
-	                        'freeCodeCamp Leaderboard'
-	                    )
-	                ),
-	                tableData
+	                React.createElement(Header, null),
+	                tableData,
+	                React.createElement(Footer, null)
 	            );
 	        }
 	    }]);
@@ -25529,6 +25524,55 @@
 /* 219 */
 /***/ (function(module, exports, __webpack_require__) {
 
+	"use strict";
+
+	var React = __webpack_require__(8);
+
+	var Header = function Header() {
+	    return React.createElement(
+	        "div",
+	        { id: "header" },
+	        React.createElement(
+	            "h1",
+	            null,
+	            "freeCodeCamp Leaderboard"
+	        )
+	    );
+	};
+
+	module.exports = Header;
+
+/***/ }),
+/* 220 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var React = __webpack_require__(8);
+
+	var Footer = function Footer() {
+	    return React.createElement(
+	        "div",
+	        { id: "footer" },
+	        React.createElement(
+	            "p",
+	            null,
+	            "Author's source code on ",
+	            React.createElement(
+	                "a",
+	                { href: "https://github.com/imooreva/camper-leaderboard", target: "_blank" },
+	                "Github"
+	            )
+	        )
+	    );
+	};
+
+	module.exports = Footer;
+
+/***/ }),
+/* 221 */
+/***/ (function(module, exports, __webpack_require__) {
+
 	'use strict';
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -25539,10 +25583,9 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	//require react and components
 	var React = __webpack_require__(8);
+	//functions and components
 	var CamperStats = __webpack_require__(189);
-	var UserRecord = __webpack_require__(220);
 
 	var Main = function (_React$Component) {
 	    _inherits(Main, _React$Component);
@@ -25556,9 +25599,8 @@
 	    _createClass(Main, [{
 	        key: 'render',
 	        value: function render() {
-	            //conditional statement sorts the appropriate column, and render the stored data if necessary
+	            //conditional statement sorts the appropriate column, and renders the stored data if necessary
 	            var userProps = this.props.sortType === 'Recent' ? this.props.usersRecent : this.props.usersAllTime;
-	            //declare for later use
 	            var userData = void 0;
 	            var unavailableMessage = void 0;
 
@@ -25602,8 +25644,7 @@
 	            }
 
 	            return (
-	                //if-else statement with conditional operator
-	                //if data is unavailable, render a div with message, otherwise render data in a table
+	                //if data is unavailable, render div with message, otherwise render data in table
 	                unavailableMessage ? React.createElement(
 	                    'div',
 	                    null,
@@ -25630,7 +25671,8 @@
 	                            React.createElement(
 	                                'th',
 	                                { scope: 'column', onClick: this.props.sortRecent },
-	                                'Recent Score - Past 30 Days'
+	                                'Recent Score - Past 30 Days',
+	                                this.props.sorted
 	                            ),
 	                            React.createElement(
 	                                'th',
@@ -25655,43 +25697,16 @@
 	module.exports = Main;
 
 /***/ }),
-/* 220 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var React = __webpack_require__(8);
-
-	var UserRecord = function UserRecord(props) {
-	    return React.createElement(
-	        'tr',
-	        null,
-	        React.createElement(
-	            'td',
-	            null,
-	            props.user
-	        ),
-	        React.createElement(
-	            'td',
-	            null,
-	            'aaa'
-	        )
-	    );
-	};
-
-	module.exports = UserRecord;
-
-/***/ }),
-/* 221 */
+/* 222 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(222);
+	var content = __webpack_require__(223);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(224)(content, {});
+	var update = __webpack_require__(225)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -25708,21 +25723,21 @@
 	}
 
 /***/ }),
-/* 222 */
+/* 223 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(223)();
+	exports = module.exports = __webpack_require__(224)();
 	// imports
 
 
 	// module
-	exports.push([module.id, "p {\n  color: #777; }\n\nhtml, div#app {\n  background-color: cornsilk; }\n\ndiv > #header {\n  text-align: center; }\n\n.fetching-data {\n  text-align: center; }\n\ntable, th, td {\n  border: 0.1875rem solid cornflowerblue;\n  border-collapse: collapse; }\n\n#main > thead > tr > th {\n  font-size: 1.25rem;\n  text-align: center;\n  text-decoration: none; }\n\n.rank, .recent, .alltime {\n  text-align: center; }\n\n.user {\n  text-align: left; }\n\n.user-img {\n  border: 0.125rem black solid;\n  border-radius: 10%;\n  max-height: 2.5rem;\n  max-width: 2.5rem; }\n", ""]);
+	exports.push([module.id, "html, div#app {\n  background-color: cornsilk; }\n\ndiv > #header {\n  color: navy;\n  padding: 1.5rem 0;\n  text-align: center; }\n\n.fetching-data {\n  color: navy;\n  text-align: center; }\n\ntable, th, td {\n  border: 0.1875rem solid navy;\n  border-collapse: collapse;\n  color: navy;\n  font-size: 1.25rem; }\n\n#main > thead > tr > th {\n  background-color: cornflowerblue;\n  color: cornsilk;\n  font-size: 1.25rem;\n  text-align: center;\n  text-decoration: none; }\n\n.rank, .recent, .alltime {\n  text-align: center; }\n\n.user {\n  text-align: left; }\n\n.user-img {\n  border: 0.125rem black solid;\n  border-radius: 10%;\n  max-height: 2.5rem;\n  max-width: 2.5rem; }\n\n#footer {\n  color: navy;\n  font-size: 1.25rem;\n  padding: 2rem 0;\n  text-align: center; }\n\n#footer a {\n  color: cornflowerblue;\n  text-decoration: none; }\n\n#footer a:hover {\n  text-decoration: underline; }\n", ""]);
 
 	// exports
 
 
 /***/ }),
-/* 223 */
+/* 224 */
 /***/ (function(module, exports) {
 
 	/*
@@ -25778,7 +25793,7 @@
 
 
 /***/ }),
-/* 224 */
+/* 225 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/*
@@ -26030,16 +26045,16 @@
 
 
 /***/ }),
-/* 225 */
+/* 226 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(226);
+	var content = __webpack_require__(227);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(224)(content, {});
+	var update = __webpack_require__(225)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -26056,10 +26071,10 @@
 	}
 
 /***/ }),
-/* 226 */
+/* 227 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(223)();
+	exports = module.exports = __webpack_require__(224)();
 	// imports
 
 

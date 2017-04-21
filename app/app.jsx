@@ -1,11 +1,11 @@
-//require modules
 var React = require('react');
 var ReactDOM = require('react-dom');
 
 //functions and components
 var CamperStats = require('CamperStats');
+var Header = require('Header');
+var Footer = require('Footer');
 var Main = require('Main');
-var UserRecord = require('UserRecord');
 
 //load foundation and app styles
 $(document).foundation();
@@ -20,7 +20,8 @@ class App extends React.Component {
         this.state = {
             dataAllTime: undefined,
             dataRecent: undefined,
-            dataSorted: false,
+            dataAllTimeSorted: false,
+            dataRecentSorted: true,
             sortType: 'Recent'
         };
         this.handleData = this.handleData.bind(this);
@@ -45,15 +46,17 @@ class App extends React.Component {
         });
     }
     //sort the recent (last 30 days) highest scores
+    //JSON data on the server is already sorted in descending order, but we'll sort it here anyway :)
     handleSortRecent() {
         let loadedData = this.state.dataRecent;
         if (loadedData && Array.isArray(loadedData)) {
-            //compare first and last scores in array to determine sort order
-            let sorted = loadedData[0].recent > loadedData[loadedData.length - 1].recent ? loadedData.sort((a,b) => a.recent - b.recent) : loadedData.sort((a,b) => b.recent - a.recent);
+            //compare first and last scores in array to determine sort order, then sort by
+            let sorted = loadedData.sort((a,b) => b.recent - a.recent);
             //update state with our sorted array
             this.setState({
                 dataRecent: sorted,
-                dataSorted: true,
+                dataRecentSorted: true,
+                dataAllTimeSorted: false,
                 sortType: 'Recent'
             })
         }
@@ -63,11 +66,12 @@ class App extends React.Component {
         let loadedData = this.state.dataAllTime;
         if (loadedData && Array.isArray(loadedData)) {
             //compare first and last scores in array to determine sort order
-            let sorted = loadedData[0].alltime > loadedData[loadedData.length - 1].alltime ? loadedData.sort((a,b) => a.alltime - b.alltime) : loadedData.sort((a,b) => b.alltime - a.alltime);
+            let sorted = loadedData.sort((a,b) => b.alltime - a.alltime);
             //update state with our sorted array
             this.setState({
                 dataAllTime: sorted,
-                dataSorted: true,
+                dataRecentSorted: false,
+                dataAllTimeSorted: true,
                 sortType: 'AllTime'
             })
         }
@@ -81,14 +85,17 @@ class App extends React.Component {
         } else {
             tableData = <Main usersRecent={this.state.dataRecent} 
                         usersAllTime={this.state.dataAllTime} 
+                        sortedRecent={this.state.dataRecentSorted} 
+                        sortedAllTime={this.state.dataAllTimeSorted}
                         sortType={this.state.sortType} 
                         sortRecent={this.handleSortRecent} 
                         sortAllTime={this.handleSortAllTime}/>;
         }
         return (
             <div className="column small-centered medium-8 large-10">
-                <div id="header"><h1>freeCodeCamp Leaderboard</h1></div>
+                <Header/>
                 {tableData}
+                <Footer/>
             </div>
         );
     }

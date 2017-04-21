@@ -1,27 +1,36 @@
-$color: #777;
-
-p {
-    color: $color;
-}
+$color: navy;
+$color1: cornsilk;
+$color2: cornflowerblue;
 
 html, div#app {
-    background-color: cornsilk;
+    background-color: $color1;
 }
 
+//Header component
+
 div>#header {
+    color: $color;
+    padding: 1.5rem 0;
     text-align: center;
 }
 
+//Main component
+
 .fetching-data {
+    color: $color;
     text-align: center;
 }
 
 table, th, td {
-    border: 0.1875rem solid cornflowerblue;
+    border: 0.1875rem solid $color;
     border-collapse: collapse;
+    color: $color;
+    font-size: 1.25rem;
 }
 
 #main>thead>tr>th {
+    background-color: $color2;
+    color: $color1;
     font-size: 1.25rem;
     text-align: center;
     text-decoration: none;
@@ -40,4 +49,22 @@ table, th, td {
     border-radius: 10%;
     max-height: 2.5rem;
     max-width: 2.5rem;
+}
+
+//Footer component
+
+#footer {
+    color: $color;
+    font-size: 1.25rem;
+    padding: 2rem 0;
+    text-align: center;
+}
+
+#footer a {
+    color: $color2;
+    text-decoration: none;
+}
+
+#footer a:hover {
+    text-decoration: underline;
 }

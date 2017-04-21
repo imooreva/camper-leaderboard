@@ -1,8 +1,6 @@
-//require react and components
 var React = require('react');
+//functions and components
 var CamperStats = require('CamperStats');
-var UserRecord = require('UserRecord');
-
 
 class Main extends React.Component {
     
@@ -11,9 +9,8 @@ class Main extends React.Component {
     }
     
     render() {
-        //conditional statement sorts the appropriate column, and render the stored data if necessary
+        //conditional statement sorts the appropriate column, and renders the stored data if necessary
         let userProps = this.props.sortType === 'Recent' ? this.props.usersRecent : this.props.usersAllTime;
-        //declare for later use
         let userData;
         let unavailableMessage;
         
@@ -28,15 +25,14 @@ class Main extends React.Component {
         }
         
         return (
-            //if-else statement with conditional operator
-            //if data is unavailable, render a div with message, otherwise render data in a table
+            //if data is unavailable, render div with message, otherwise render data in table
             unavailableMessage ? <div>{unavailableMessage}</div> : 
             <table id="main" role="grid">
                 <thead>
                     <tr>
                         <th scope="column">Rank</th>
                         <th scope="column">User</th>
-                        <th scope="column" onClick={this.props.sortRecent}>Recent Score - Past 30 Days</th>
+                        <th scope="column" onClick={this.props.sortRecent}>Recent Score - Past 30 Days{this.props.sorted}</th>
                         <th scope="column" onClick={this.props.sortAllTime}>All Time Score</th>
                     </tr>
                 </thead>
