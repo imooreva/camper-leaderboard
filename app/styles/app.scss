@@ -31,7 +31,6 @@ table, th, td {
 #main>thead>tr>th {
     background-color: $color2;
     color: $color1;
-    font-size: 1.25rem;
     text-align: center;
     text-decoration: none;
 }
@@ -67,4 +66,46 @@ table, th, td {
 
 #footer a:hover {
     text-decoration: underline;
+}
+
+//Media queries
+
+@media only screen and (max-width: 480px) {
+    
+    div>#header {
+        padding: 0.75rem 0;
+        text-align: center;
+    }
+    table, th, td {
+        font-size: 0.875rem;
+    }
+    #recent-score {
+        display: none;
+    }
+    .user-img {
+        display: none;
+    }
+    #footer {
+        font-size: 1rem;
+        padding: 1rem 0;
+    }
+}
+
+@media only screen and (min-width: 481px) and (max-width: 639px) {
+    
+    div>#header {
+        padding: 0.75rem 0;
+        text-align: center;
+    }
+    table, th, td {
+        font-size: 1rem;
+    }
+    .user-img {
+        max-height: 1.625rem;
+        max-width: 1.625rem;
+    }
+    #footer {
+        font-size: 1rem;
+        padding: 1rem 0;
+    }
 }

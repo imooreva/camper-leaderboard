@@ -25671,7 +25671,12 @@
 	                            React.createElement(
 	                                'th',
 	                                { scope: 'column', onClick: this.props.sortRecent },
-	                                'Recent Score - Past 30 Days',
+	                                React.createElement(
+	                                    'span',
+	                                    { id: 'recent-score' },
+	                                    'Recent Score - '
+	                                ),
+	                                'Past 30 Days',
 	                                this.props.sorted
 	                            ),
 	                            React.createElement(
@@ -25731,7 +25736,7 @@
 
 
 	// module
-	exports.push([module.id, "html, div#app {\n  background-color: cornsilk; }\n\ndiv > #header {\n  color: navy;\n  padding: 1.5rem 0;\n  text-align: center; }\n\n.fetching-data {\n  color: navy;\n  text-align: center; }\n\ntable, th, td {\n  border: 0.1875rem solid navy;\n  border-collapse: collapse;\n  color: navy;\n  font-size: 1.25rem; }\n\n#main > thead > tr > th {\n  background-color: cornflowerblue;\n  color: cornsilk;\n  font-size: 1.25rem;\n  text-align: center;\n  text-decoration: none; }\n\n.rank, .recent, .alltime {\n  text-align: center; }\n\n.user {\n  text-align: left; }\n\n.user-img {\n  border: 0.125rem black solid;\n  border-radius: 10%;\n  max-height: 2.5rem;\n  max-width: 2.5rem; }\n\n#footer {\n  color: navy;\n  font-size: 1.25rem;\n  padding: 2rem 0;\n  text-align: center; }\n\n#footer a {\n  color: cornflowerblue;\n  text-decoration: none; }\n\n#footer a:hover {\n  text-decoration: underline; }\n", ""]);
+	exports.push([module.id, "html, div#app {\n  background-color: cornsilk; }\n\ndiv > #header {\n  color: navy;\n  padding: 1.5rem 0;\n  text-align: center; }\n\n.fetching-data {\n  color: navy;\n  text-align: center; }\n\ntable, th, td {\n  border: 0.1875rem solid navy;\n  border-collapse: collapse;\n  color: navy;\n  font-size: 1.25rem; }\n\n#main > thead > tr > th {\n  background-color: cornflowerblue;\n  color: cornsilk;\n  text-align: center;\n  text-decoration: none; }\n\n.rank, .recent, .alltime {\n  text-align: center; }\n\n.user {\n  text-align: left; }\n\n.user-img {\n  border: 0.125rem black solid;\n  border-radius: 10%;\n  max-height: 2.5rem;\n  max-width: 2.5rem; }\n\n#footer {\n  color: navy;\n  font-size: 1.25rem;\n  padding: 2rem 0;\n  text-align: center; }\n\n#footer a {\n  color: cornflowerblue;\n  text-decoration: none; }\n\n#footer a:hover {\n  text-decoration: underline; }\n\n@media only screen and (max-width: 480px) {\n  div > #header {\n    padding: 0.75rem 0;\n    text-align: center; }\n  table, th, td {\n    font-size: 0.875rem; }\n  #recent-score {\n    display: none; }\n  .user-img {\n    display: none; }\n  #footer {\n    font-size: 1rem;\n    padding: 1rem 0; } }\n\n@media only screen and (min-width: 481px) and (max-width: 639px) {\n  div > #header {\n    padding: 0.75rem 0;\n    text-align: center; }\n  table, th, td {\n    font-size: 1rem; }\n  .user-img {\n    max-height: 1.625rem;\n    max-width: 1.625rem; }\n  #footer {\n    font-size: 1rem;\n    padding: 1rem 0; } }\n", ""]);
 
 	// exports
 

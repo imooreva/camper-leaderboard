@@ -32,7 +32,7 @@ class Main extends React.Component {
                     <tr>
                         <th scope="column">Rank</th>
                         <th scope="column">User</th>
-                        <th scope="column" onClick={this.props.sortRecent}>Recent Score - Past 30 Days{this.props.sorted}</th>
+                        <th scope="column" onClick={this.props.sortRecent}><span id="recent-score">Recent Score - </span>Past 30 Days{this.props.sorted}</th>
                         <th scope="column" onClick={this.props.sortAllTime}>All Time Score</th>
                     </tr>
                 </thead>
