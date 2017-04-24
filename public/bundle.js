@@ -25573,7 +25573,7 @@
 /* 221 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	'use strict';
+	/* WEBPACK VAR INJECTION */(function($) {'use strict';
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -25643,6 +25643,14 @@
 	                );
 	            }
 
+	            if (this.props.sortType === 'Recent') {
+	                $('#recent-down-arrow').css("display", "inline-block");
+	                $('#alltime-down-arrow').css("display", "none");
+	            } else {
+	                $('#recent-down-arrow').css("display", "none");
+	                $('#alltime-down-arrow').css("display", "inline-block");
+	            }
+
 	            return (
 	                //if data is unavailable, render div with message, otherwise render data in table
 	                unavailableMessage ? React.createElement(
@@ -25670,19 +25678,41 @@
 	                            ),
 	                            React.createElement(
 	                                'th',
-	                                { scope: 'column', onClick: this.props.sortRecent },
+	                                { scope: 'column', id: 'recent-th', onClick: this.props.sortRecent },
 	                                React.createElement(
-	                                    'span',
-	                                    { id: 'recent-score' },
-	                                    'Recent Score - '
-	                                ),
-	                                'Past 30 Days',
-	                                this.props.sorted
+	                                    'a',
+	                                    { href: '#' },
+	                                    'Recent',
+	                                    React.createElement(
+	                                        'span',
+	                                        { className: 'score-span' },
+	                                        ' Score - Past 30 Days'
+	                                    ),
+	                                    React.createElement(
+	                                        'span',
+	                                        { id: 'recent-down-arrow' },
+	                                        '\u25BC'
+	                                    )
+	                                )
 	                            ),
 	                            React.createElement(
 	                                'th',
 	                                { scope: 'column', onClick: this.props.sortAllTime },
-	                                'All Time Score'
+	                                React.createElement(
+	                                    'a',
+	                                    { href: '#' },
+	                                    'All Time',
+	                                    React.createElement(
+	                                        'span',
+	                                        { className: 'score-span' },
+	                                        ' Score'
+	                                    ),
+	                                    React.createElement(
+	                                        'span',
+	                                        { id: 'alltime-down-arrow' },
+	                                        '\u25BC'
+	                                    )
+	                                )
 	                            )
 	                        )
 	                    ),
@@ -25700,6 +25730,7 @@
 	}(React.Component);
 
 	module.exports = Main;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(7)))
 
 /***/ }),
 /* 222 */
@@ -25736,7 +25767,7 @@
 
 
 	// module
-	exports.push([module.id, "html, div#app {\n  background-color: cornsilk; }\n\ndiv > #header {\n  color: navy;\n  padding: 1.5rem 0;\n  text-align: center; }\n\n.fetching-data {\n  color: navy;\n  text-align: center; }\n\ntable, th, td {\n  border: 0.1875rem solid navy;\n  border-collapse: collapse;\n  color: navy;\n  font-size: 1.25rem; }\n\n#main > thead > tr > th {\n  background-color: cornflowerblue;\n  color: cornsilk;\n  text-align: center;\n  text-decoration: none; }\n\n.rank, .recent, .alltime {\n  text-align: center; }\n\n.user {\n  text-align: left; }\n\n.user-img {\n  border: 0.125rem black solid;\n  border-radius: 10%;\n  max-height: 2.5rem;\n  max-width: 2.5rem; }\n\n#footer {\n  color: navy;\n  font-size: 1.25rem;\n  padding: 2rem 0;\n  text-align: center; }\n\n#footer a {\n  color: cornflowerblue;\n  text-decoration: none; }\n\n#footer a:hover {\n  text-decoration: underline; }\n\n@media only screen and (max-width: 480px) {\n  div > #header {\n    padding: 0.75rem 0;\n    text-align: center; }\n  table, th, td {\n    font-size: 0.875rem; }\n  #recent-score {\n    display: none; }\n  .user-img {\n    display: none; }\n  #footer {\n    font-size: 1rem;\n    padding: 1rem 0; } }\n\n@media only screen and (min-width: 481px) and (max-width: 639px) {\n  div > #header {\n    padding: 0.75rem 0;\n    text-align: center; }\n  table, th, td {\n    font-size: 1rem; }\n  .user-img {\n    max-height: 1.625rem;\n    max-width: 1.625rem; }\n  #footer {\n    font-size: 1rem;\n    padding: 1rem 0; } }\n", ""]);
+	exports.push([module.id, "html, div#app {\n  background-color: cornsilk; }\n\ndiv > #header {\n  color: navy;\n  padding: 1.5rem 0;\n  text-align: center; }\n\n.fetching-data {\n  color: navy;\n  text-align: center; }\n\ntable, th, td {\n  border: 0.1875rem solid navy;\n  border-collapse: collapse;\n  color: navy;\n  font-size: 1.25rem; }\n\n#main > thead > tr > th {\n  background-color: cornflowerblue;\n  color: cornsilk;\n  text-align: center; }\n\n#main > thead > tr > th > a {\n  color: cornsilk;\n  text-decoration: underline; }\n\n#alltime-down-arrow {\n  display: none; }\n\n#recent-down-arrow {\n  display: inline-block; }\n\n.rank, .recent, .alltime {\n  text-align: center; }\n\n.user {\n  text-align: left; }\n\n.user-img {\n  border: 0.125rem black solid;\n  border-radius: 10%;\n  max-height: 2.5rem;\n  max-width: 2.5rem; }\n\n#footer {\n  color: navy;\n  font-size: 1.25rem;\n  padding: 2rem 0;\n  text-align: center; }\n\n#footer a {\n  color: cornflowerblue;\n  text-decoration: none; }\n\n#footer a:hover {\n  text-decoration: underline; }\n\n@media only screen and (max-width: 480px) {\n  div > #header {\n    padding: 0.75rem 0;\n    text-align: center; }\n  table, th, td {\n    font-size: 0.875rem; }\n  .score-span {\n    display: none; }\n  .user-img {\n    display: none; }\n  #footer {\n    font-size: 1rem;\n    padding: 1rem 0; } }\n\n@media only screen and (min-width: 481px) and (max-width: 639px) {\n  div > #header {\n    padding: 0.75rem 0;\n    text-align: center; }\n  table, th, td {\n    font-size: 1rem; }\n  .score-span {\n    display: none; }\n  .user-img {\n    max-height: 1.625rem;\n    max-width: 1.625rem; }\n  #footer {\n    font-size: 1rem;\n    padding: 1rem 0; } }\n", ""]);
 
 	// exports
 

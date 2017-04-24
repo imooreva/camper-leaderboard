@@ -32,7 +32,19 @@ table, th, td {
     background-color: $color2;
     color: $color1;
     text-align: center;
-    text-decoration: none;
+}
+
+#main>thead>tr>th>a {
+    color: $color1;
+    text-decoration: underline;
+}
+
+#alltime-down-arrow {
+    display: none;
+}
+
+#recent-down-arrow {
+    display: inline-block;
 }
 
 .rank, .recent, .alltime {
@@ -79,7 +91,7 @@ table, th, td {
     table, th, td {
         font-size: 0.875rem;
     }
-    #recent-score {
+    .score-span {
         display: none;
     }
     .user-img {
@@ -99,6 +111,9 @@ table, th, td {
     }
     table, th, td {
         font-size: 1rem;
+    }
+    .score-span {
+        display: none;
     }
     .user-img {
         max-height: 1.625rem;

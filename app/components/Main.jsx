@@ -24,6 +24,14 @@ class Main extends React.Component {
             unavailableMessage = <h3 className="fetching-data">Data is currently unavailable.</h3>;
         }
         
+        if (this.props.sortType === 'Recent') {
+            $('#recent-down-arrow').css("display","inline-block");
+            $('#alltime-down-arrow').css("display","none");
+        } else {
+            $('#recent-down-arrow').css("display","none");
+            $('#alltime-down-arrow').css("display","inline-block");
+        }
+            
         return (
             //if data is unavailable, render div with message, otherwise render data in table
             unavailableMessage ? <div>{unavailableMessage}</div> : 
@@ -32,8 +40,8 @@ class Main extends React.Component {
                     <tr>
                         <th scope="column">Rank</th>
                         <th scope="column">User</th>
-                        <th scope="column" onClick={this.props.sortRecent}><span id="recent-score">Recent Score - </span>Past 30 Days{this.props.sorted}</th>
-                        <th scope="column" onClick={this.props.sortAllTime}>All Time Score</th>
+                        <th scope="column" id="recent-th" onClick={this.props.sortRecent}><a href="#">Recent<span className="score-span"> Score - Past 30 Days</span><span id="recent-down-arrow">&#x25BC;</span></a></th>
+                        <th scope="column" onClick={this.props.sortAllTime}><a href="#">All Time<span className="score-span"> Score</span><span id="alltime-down-arrow">&#x25BC;</span></a></th>
                     </tr>
                 </thead>
                 <tbody>
