@@ -1,7 +1,7 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
 
-//functions and components
+//external functions and components
 var CamperStats = require('CamperStats');
 var Header = require('Header');
 var Footer = require('Footer');
@@ -9,7 +9,7 @@ var Main = require('Main');
 
 //load foundation and app styles
 $(document).foundation();
-require('style!css!sass!applicationStyles')
+require('style!css!sass!applicationStyles');
 require('style!css!foundation-sites/dist/foundation.min.css');
 
 
@@ -28,11 +28,11 @@ class App extends React.Component {
         this.handleSortRecent = this.handleSortRecent.bind(this);
         this.handleSortAllTime = this.handleSortAllTime.bind(this);
     }
-    //call handleData() after App mounts
+    
     componentDidMount() {
         this.handleData();
     }
-    //download latest JSON formatted data and use it to update App component's state
+    //download latest JSON data and use it to update App component's state
     handleData() {
         CamperStats.top100_recent().then((data) => {
             this.setState({
@@ -46,11 +46,11 @@ class App extends React.Component {
         });
     }
     //sort the recent (last 30 days) highest scores
-    //JSON data on the server is already sorted in descending order, but we'll sort it here anyway :)
+    //JSON data on the server is already sorted in descending order, but we'll sort it here anyway
     handleSortRecent() {
         let loadedData = this.state.dataRecent;
         if (loadedData && Array.isArray(loadedData)) {
-            //compare first and last scores in array to determine sort order, then sort by
+            //compare first and last scores in array to determine sort order, then sort in descending order
             let sorted = loadedData.sort((a,b) => b.recent - a.recent);
             //update state with our sorted array
             this.setState({
@@ -58,14 +58,14 @@ class App extends React.Component {
                 dataRecentSorted: true,
                 dataAllTimeSorted: false,
                 sortType: 'Recent'
-            })
-        }
+            });
+        };
     }
     //sort the highest scores of all time
     handleSortAllTime() {
         let loadedData = this.state.dataAllTime;
         if (loadedData && Array.isArray(loadedData)) {
-            //compare first and last scores in array to determine sort order
+            //compare first and last scores in array to determine sort order, then sort in descending order
             let sorted = loadedData.sort((a,b) => b.alltime - a.alltime);
             //update state with our sorted array
             this.setState({
@@ -73,8 +73,8 @@ class App extends React.Component {
                 dataRecentSorted: false,
                 dataAllTimeSorted: true,
                 sortType: 'AllTime'
-            })
-        }
+            });
+        };
     }
     
     render() {
@@ -90,7 +90,7 @@ class App extends React.Component {
                         sortType={this.state.sortType} 
                         sortRecent={this.handleSortRecent} 
                         sortAllTime={this.handleSortAllTime}/>;
-        }
+        };
         return (
             <div className="column small-centered medium-8 large-10">
                 <Header/>

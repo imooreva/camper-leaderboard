@@ -1,6 +1,4 @@
 var React = require('react');
-//functions and components
-var CamperStats = require('CamperStats');
 
 class Main extends React.Component {
     
@@ -16,21 +14,25 @@ class Main extends React.Component {
         
         if (Array.isArray(userProps)) {
             //map the information to table rows and cells
-            //don't use curly brackets to wrap function output in .map, it prevents userData from rendering
+            //don't use curly brackets to wrap function output in .map() method
             userData = userProps.map((item,index) =>
-                <tr key={index+1} className="rank"><td>{index+1}</td><td className="user"><img src={item.img} className="user-img"/> {item.username}</td><td className="recent">{item.recent}</td><td className="alltime">{item.alltime}</td></tr>
+                <tr key={index+1} className="rank">
+                    <td>{index+1}</td>
+                    <td className="user"><img src={item.img} className="user-img"/> {item.username}</td>
+                    <td className="recent">{item.recent}</td><td className="alltime">{item.alltime}</td>
+                </tr>
             );
         } else if (!userProps || !Array.isArray(userProps)) {
             unavailableMessage = <h3 className="fetching-data">Data is currently unavailable.</h3>;
-        }
-        
+        };
+        //for descending arrow symbol in header cells
         if (this.props.sortType === 'Recent') {
             $('#recent-down-arrow').css("display","inline-block");
             $('#alltime-down-arrow').css("display","none");
         } else {
             $('#recent-down-arrow').css("display","none");
             $('#alltime-down-arrow').css("display","inline-block");
-        }
+        };
             
         return (
             //if data is unavailable, render div with message, otherwise render data in table
@@ -40,8 +42,16 @@ class Main extends React.Component {
                     <tr>
                         <th scope="column">Rank</th>
                         <th scope="column">User</th>
-                        <th scope="column" id="recent-th" onClick={this.props.sortRecent}><a href="#">Recent<span className="score-span"> Score - Past 30 Days</span><span id="recent-down-arrow">&#x25BC;</span></a></th>
-                        <th scope="column" onClick={this.props.sortAllTime}><a href="#">All Time<span className="score-span"> Score</span><span id="alltime-down-arrow">&#x25BC;</span></a></th>
+                        <th scope="column" id="recent-th" onClick={this.props.sortRecent}>
+                            <a href="#">Recent<span className="score-span"> Score - Past 30 Days</span>
+                                <span id="recent-down-arrow">&#x25BC;</span>
+                            </a>
+                        </th>
+                        <th scope="column" onClick={this.props.sortAllTime}>
+                            <a href="#">All Time<span className="score-span"> Score</span>
+                                <span id="alltime-down-arrow">&#x25BC;</span>
+                            </a>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>

@@ -1,6 +1,7 @@
-$color: navy;
-$color1: cornsilk;
-$color2: cornflowerblue;
+$color: #000080; //navy;
+$color1: #FFF8DC; //cornsilk;
+$color2: #6495ED; //cornflowerblue;
+$color3: #F0F8FF; //aliceblue;
 
 html, div#app {
     background-color: $color1;
@@ -30,12 +31,12 @@ table, th, td {
 
 #main>thead>tr>th {
     background-color: $color2;
-    color: $color1;
+    color: aliceblue;
     text-align: center;
 }
 
 #main>thead>tr>th>a {
-    color: $color1;
+    color: aliceblue;
     text-decoration: underline;
 }
 
