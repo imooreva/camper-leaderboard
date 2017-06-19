@@ -42,13 +42,13 @@ class Main extends React.Component {
                     <tr>
                         <th scope="column">Rank</th>
                         <th scope="column">User</th>
-                        <th scope="column" id="recent-th" onClick={this.props.sortRecent}>
-                            <a href="#">Recent<span className="score-span"> Score - Past 30 Days</span>
+                        <th scope="column" className="column-th" onClick={this.props.sortRecent}>
+                            <a href="#" tabindex="1">Recent<span className="score-span"> Score - Past 30 Days</span>
                                 <span id="recent-down-arrow">&#x25BC;</span>
                             </a>
                         </th>
-                        <th scope="column" onClick={this.props.sortAllTime}>
-                            <a href="#">All Time<span className="score-span"> Score</span>
+                        <th scope="column" className="column-th" onClick={this.props.sortAllTime}>
+                            <a href="#" tabindex="2">All Time<span className="score-span"> Score</span>
                                 <span id="alltime-down-arrow">&#x25BC;</span>
                             </a>
                         </th>

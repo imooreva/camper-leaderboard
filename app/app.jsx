@@ -3,8 +3,8 @@ var ReactDOM = require('react-dom');
 
 //external functions and components
 var CamperStats = require('CamperStats');
-var Header = require('Header');
-var Footer = require('Footer');
+var Heading = require('Heading');
+var GitLink = require('GitLink');
 var Main = require('Main');
 
 //load foundation and app styles
@@ -93,9 +93,9 @@ class App extends React.Component {
         };
         return (
             <div className="column small-centered medium-8 large-10">
-                <Header/>
+                <Heading/>
                 {tableData}
-                <Footer/>
+                <GitLink/>
             </div>
         );
     }

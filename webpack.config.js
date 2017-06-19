@@ -30,8 +30,8 @@ module.exports = {
         alias: {
             applicationStyles: 'app/styles/app.scss',
             CamperStats: 'app/api/CamperStats.js',
-            Footer: 'app/components/Footer.jsx',
-            Header: 'app/components/Header.jsx',
+            GitLink: 'app/components/GitLink.jsx',
+            Heading: 'app/components/Heading.jsx',
             Main: 'app/components/Main.jsx'                        
         },
         extensions: ['','.js','.jsx']

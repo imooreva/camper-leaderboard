@@ -9,7 +9,7 @@ html, div#app {
 
 //Header component
 
-div>#header {
+div>#header>h1 {
     color: $color;
     padding: 1.5rem 0;
     text-align: center;
@@ -29,23 +29,32 @@ table, th, td {
     font-size: 1.25rem;
 }
 
-#main>thead>tr>th {
-    background-color: $color2;
-    color: aliceblue;
-    text-align: center;
-}
-
-#main>thead>tr>th>a {
-    color: aliceblue;
-    text-decoration: underline;
-}
-
 #alltime-down-arrow {
     display: none;
 }
 
+#main>thead>tr>th {
+    background-color: $color2;
+    color: $color3;
+    text-align: center;
+}
+
 #recent-down-arrow {
     display: inline-block;
+}
+
+.column-th>a {
+    color: $color3;
+    text-decoration: underline;
+}
+
+.column-th>a:focus {
+    color: $color1;
+    outline: 0.1875rem dotted $color3;
+}
+
+.column-th>a:hover {
+    color: $color1;
 }
 
 .rank, .recent, .alltime {
@@ -63,21 +72,25 @@ table, th, td {
     max-width: 2.5rem;
 }
 
-//Footer component
+//GitLink component
 
-#footer {
+#gitlink {
     color: $color;
     font-size: 1.25rem;
-    padding: 2rem 0;
+    padding: 2.0rem 0;
     text-align: center;
 }
 
-#footer a {
+#gitlink a {
     color: $color2;
     text-decoration: none;
 }
 
-#footer a:hover {
+#gitlink a:focus {
+    outline: 0.1875rem dotted $color2;
+}
+
+#gitlink a:hover {
     text-decoration: underline;
 }
 
@@ -85,9 +98,8 @@ table, th, td {
 
 @media only screen and (max-width: 480px) {
     
-    div>#header {
+    div>#header>h1 {
         padding: 0.75rem 0;
-        text-align: center;
     }
     table, th, td {
         font-size: 0.875rem;
@@ -98,20 +110,20 @@ table, th, td {
     .user-img {
         display: none;
     }
-    #footer {
-        font-size: 1rem;
-        padding: 1rem 0;
+    #gitlink {
+        font-size: 1.0rem;
+        padding: 1.0rem 0;
     }
 }
 
-@media only screen and (min-width: 481px) and (max-width: 639px) {
+@media only screen and (min-width: 481px) and (max-width: 768px) {
     
-    div>#header {
-        padding: 0.75rem 0;
-        text-align: center;
+    div>#header>h1 {
+        font-size: 1.875rem;
+        padding: 1.0rem 0;
     }
     table, th, td {
-        font-size: 1rem;
+        font-size: 1.0rem;
     }
     .score-span {
         display: none;
@@ -120,8 +132,30 @@ table, th, td {
         max-height: 1.625rem;
         max-width: 1.625rem;
     }
-    #footer {
-        font-size: 1rem;
-        padding: 1rem 0;
+    #gitlink {
+        font-size: 1.0rem;
+        padding: 1.25rem 0;
     }
 }
+
+@media only screen and (min-width: 769px) and (max-width: 1024px) {
+
+    div>#header>h1 {
+        font-size: 2.3rem;
+        padding: 1.25rem 0;
+    }
+    table, th, td {
+        font-size: 1.125rem;
+    }
+    .score-span {
+        display: none;
+    }
+    .user-img {
+        max-height: 2.25rem;
+        max-width: 2.25rem;
+    }
+    #gitlink {
+        padding: 1.5rem 0;
+    }
+}
+
